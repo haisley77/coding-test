@@ -1,32 +1,24 @@
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.util.*;
+import java.util.LinkedList;
+import java.util.Queue;
+import java.util.StringTokenizer;
 
 public class Main {
-    static int N, M, R, C;
-    static int[][] map = new int[1001][1001];
-    static int[][] check = new int[1001][1001];
-    static List<Room> house = new ArrayList<>();
-    static Queue<QueueNode> q = new LinkedList<>();
-    static int[] dx = {1, 0, -1, 0};
-    static int[] dy = {0, 1, 0, -1};
-    static int ans = Integer.MAX_VALUE;
-
-    static class Room {
-        int x, y, price;
-        Room(int x, int y, int price) {
-            this.x = x;
-            this.y = y;
-            this.price = price;
-        }
-    }
-
-    static class QueueNode {
-        int combiX, combiY, x, y;
-        QueueNode(int combiX, int combiY, int x, int y) {
-            this.combiX = combiX;
-            this.combiY = combiY;
+    private static int N, M;
+    private static int[][] map;
+    private static boolean[][] visited;
+    private static Queue<Point> q = new LinkedList<>();
+    private static int res = Integer.MAX_VALUE;
+    private static class Point {
+        int startX;
+        int startY;
+        int x;
+        int y;
+        Point(int startX, int startY, int x, int y) {
+            this.startX = startX;
+            this.startY = startY;
             this.x = x;
             this.y = y;
         }
@@ -37,60 +29,51 @@ public class Main {
         StringTokenizer st = new StringTokenizer(br.readLine(), " ");
         N = Integer.parseInt(st.nextToken());
         M = Integer.parseInt(st.nextToken());
-        R = Integer.parseInt(st.nextToken());
-        C = Integer.parseInt(st.nextToken());
-
-        int cnt = 1;
+        int R = Integer.parseInt(st.nextToken());
+        int C = Integer.parseInt(st.nextToken());
+        map = new int[N+1][M+1];
+        visited = new boolean[N+1][M+1];
         for (int i = 1; i <= R; i++) {
-            st = new StringTokenizer(br.readLine(), " ");
-            int x = Integer.parseInt(st.nextToken());
-            int y = Integer.parseInt(st.nextToken());
-            int cost = Integer.parseInt(st.nextToken());
-            house.add(new Room(x, y, cost));
-            map[x][y] = cnt++;
+            st = new StringTokenizer(br.readLine()," ");
+            int a = Integer.parseInt(st.nextToken());
+            int b = Integer.parseInt(st.nextToken());
+            int p = Integer.parseInt(st.nextToken());
+            map[a][b] = p;
         }
-
-        for (int i = 1; i <= C; i++) {
-            st = new StringTokenizer(br.readLine(), " ");
-            int x = Integer.parseInt(st.nextToken());
-            int y = Integer.parseInt(st.nextToken());
-            q.offer(new QueueNode(x, y, x, y));
-            check[x][y] = 1;
+        for (int i = 0; i < C; i++) {
+            st = new StringTokenizer(br.readLine()," ");
+            int c = Integer.parseInt(st.nextToken());
+            int d = Integer.parseInt(st.nextToken());
+            q.offer(new Point(c,d,c,d));
+            visited[c][d] = true;
         }
-
-        solve();
-        System.out.println(ans);
+        
+        calcScore();
+        System.out.println(res);
     }
 
-    static void bfs() {
+    private static void calcScore() {
+        int[][] dirs = {{-1,0},{1,0},{0,-1},{0,1}};
+
         while (!q.isEmpty()) {
-            QueueNode node = q.poll();
-            int combiX = node.combiX;
-            int combiY = node.combiY;
-            int x = node.x;
-            int y = node.y;
+            Point cur = q.poll();
+            for (int i = 0; i < dirs.length; i++) {
+                int px = cur.x + dirs[i][0];
+                int py = cur.y + dirs[i][1];
+                if (px < 1 || px > N || py < 1 || py > M || visited[px][py]) continue;
 
-            for (int i = 0; i < 4; i++) {
-                int xx = x + dx[i];
-                int yy = y + dy[i];
-
-                if (xx >= 1 && xx <= N && yy >= 1 && yy <= M) {
-                    if (check[xx][yy] != 0) continue;
-
-                    if (map[xx][yy] != 0) {
-                        int houseIndex = map[xx][yy] - 1;
-                        int distance = (Math.abs(combiX - xx) + Math.abs(combiY - yy)) * house.get(houseIndex).price;
-                        ans = Math.min(ans, distance);
-                    }
-
-                    check[xx][yy] = 1;
-                    q.offer(new QueueNode(combiX, combiY, xx, yy));
+                if (map[px][py] != 0) {
+                    int cost = getDist(cur.startX, cur.startY, px, py) * map[px][py];
+                    if (res > cost) res = cost;
                 }
+                visited[px][py] = true;
+                q.offer(new Point(cur.startX, cur.startY, px, py));
             }
         }
     }
 
-    static void solve() {
-        bfs();
+    private static int getDist(int x1, int y1, int x2, int y2) {
+        return Math.abs(x1 - x2) + Math.abs(y1 - y2);
     }
+
 }

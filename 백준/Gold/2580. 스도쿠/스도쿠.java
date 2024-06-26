@@ -42,8 +42,9 @@ public class Main {
         for (int i = 1; i <= 9; i++) {
             if (possible(i,x,y,map)) {
                 map[x][y] = i;
-                Queue<int[]> nextQueue = new LinkedList<>(q); // 큐 복사
+                Queue<int[]> nextQueue = new LinkedList<>(q); 
                 sudoku(nextQueue,map);
+                if (ok) return;
             }
             map[x][y]= 0;
         }

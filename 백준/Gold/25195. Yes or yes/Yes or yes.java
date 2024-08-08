@@ -14,7 +14,6 @@ public class Main {
             this.flag = flag;
         }
     }
-
     static class Edge {
         int v;
         Edge next;
@@ -46,19 +45,19 @@ public class Main {
             int s = Integer.parseInt(st.nextToken());
             fan[s] = true;
         }
-
+        
         bfs();
     }
 
     private static void bfs() {
         Queue<Node> q = new LinkedList<>();
-        boolean[][] visited = new boolean[N+1][2];
+        boolean[] visited = new boolean[N+1];
 
         if (fan[1]) {
-            visited[1][1] = true;
+            visited[1] = true;
             q.offer(new Node(1,true));
         } else {
-            visited[1][0] = true;
+            visited[1] = true;
             q.offer(new Node(1,false));
         }
 
@@ -68,20 +67,11 @@ public class Main {
 
             int cnt = 0;
             for (Edge edge = graph[cur.v]; edge != null; edge = edge.next) {
-
                 cnt++;
-                if (cur.flag) {
-                    if (visited[edge.v][1]) continue;
-                    visited[edge.v][1] = true;
-                    q.offer(new Node(edge.v, true));
-                } else { 
-                    if (visited[edge.v][0]) continue;
-
-                    if (!fan[edge.v]) {
-                        visited[edge.v][0] = true;
-                        q.offer(new Node(edge.v, false));
-                    }
-
+                if (visited[edge.v]) continue;
+                if (!cur.flag && !fan[edge.v]) {
+                    visited[edge.v] = true;
+                    q.offer(new Node(edge.v, false));
                 }
             }
             if (cnt == 0 && !cur.flag) {

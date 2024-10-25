@@ -20,8 +20,7 @@ class Solution {
         if (total % 2 != 0) return -1;
         
         while (true) {
-            // System.out.println(s1 + " " + s2);
-            if (answer > (queue1.length + queue2.length) * 2) return -1;
+            if (answer >= (queue1.length + queue2.length) * 2) return -1;
             
             if (s1 < total / 2) {
                 int n = q2.poll();

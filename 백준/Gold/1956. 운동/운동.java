@@ -38,7 +38,9 @@ public class Main {
 
         int res = INF;
         for (int i = 1; i <= V; i++) {
-            res = Math.min(res, dist[i][i]); // Cycle check
+            if (res > dist[i][i]) {
+                res = Math.min(res, dist[i][i]); // Cycle check
+            }
         }
 
         if (res == INF) System.out.println(-1);

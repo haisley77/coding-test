@@ -1,6 +1,7 @@
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.util.Arrays;
 import java.util.StringTokenizer;
 
 public class Main {
@@ -13,9 +14,7 @@ public class Main {
 
         int[][] dist = new int[V + 1][V + 1];
         for (int i = 1; i <= V; i++) {
-            for (int j = 1; j <= V; j++) {
-                dist[i][j] = INF;
-            }
+            Arrays.fill(dist[i], INF);
         }
 
         for (int i = 0; i < E; i++) {
@@ -30,7 +29,7 @@ public class Main {
         for (int k = 1; k <= V; k++) {
             for (int i = 1; i <= V; i++) {
                 for (int j = 1; j <= V; j++) {
-                    if (dist[i][k] < INF && dist[k][j] < INF) { // K 정점 경유해서 i -> j로 갈 수 있다면
+                    if (dist[i][k] < INF && dist[k][j] < INF) {
                         dist[i][j] = Math.min(dist[i][j], dist[i][k] + dist[k][j]);
                     }
                 }

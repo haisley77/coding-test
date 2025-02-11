@@ -6,6 +6,7 @@ import java.util.Queue;
 import java.util.StringTokenizer;
 
 public class Main {
+
     public static void main(String[] args) throws IOException {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
         StringTokenizer st = new StringTokenizer(br.readLine());
@@ -27,15 +28,12 @@ public class Main {
                 break;
             }
 
-            // 정수 A에 1을 더한다
-            if (cur-1 >= A) {
-                if (visited[cur-1] != 0) continue;
+            if (visited[cur-1] == 0 && cur-1 >= A) {
                 visited[cur-1] = visited[cur] + 1;
                 q.offer(cur-1);
             }
-            // 정수 A에 2를 곱한다
-            if (cur%2 == 0 && cur/2 >= A) {
-                if (visited[cur/2] != 0) continue;
+
+            if (visited[cur/2] == 0 && cur%2 == 0 && cur/2 >= A) {
                 visited[cur/2] = visited[cur] + 1;
                 q.offer(cur/2);
             }

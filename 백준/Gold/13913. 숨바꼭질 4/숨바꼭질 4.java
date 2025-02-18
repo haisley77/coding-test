@@ -4,14 +4,7 @@ import java.io.InputStreamReader;
 import java.util.*;
 
 public class Main {
-    static class Node {
-        int v;
-        String route;
-        Node(int v, String route) {
-            this.v = v;
-            this.route = route;
-        }
-    }
+
     public static void main(String[] args) throws IOException {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
         StringTokenizer st = new StringTokenizer(br.readLine());
@@ -28,13 +21,13 @@ public class Main {
         while (!q.isEmpty()) {
             int cur = q.poll();
 
+            if (cur == K) break;
+
             for (int next : new int[]{cur - 1, cur + 1, cur * 2}) {
                 if (next >= 0 && next <= 100000 && visited[next] == 0) {
                     visited[next] = visited[cur] + 1;
                     prev[next] = cur;
                     q.offer(next);
-
-                    if (next == K) break;
 
                 }
             }

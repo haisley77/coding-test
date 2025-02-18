@@ -4,14 +4,7 @@ import java.io.InputStreamReader;
 import java.util.*;
 
 public class Main {
-    static class Node {
-        int v;
-        String route;
-        Node(int v, String route) {
-            this.v = v;
-            this.route = route;
-        }
-    }
+
     public static void main(String[] args) throws IOException {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
         StringTokenizer st = new StringTokenizer(br.readLine());

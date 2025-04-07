@@ -1,5 +1,5 @@
 -- 코드를 작성해주세요
-SELECT A.ITEM_ID, A.ITEM_NAME
-FROM ITEM_INFO A JOIN ITEM_TREE B ON A.ITEM_ID = B.ITEM_ID
-WHERE B.PARENT_ITEM_ID IS NULL
-ORDER BY ITEM_ID
+select a.item_id, a.item_name
+from item_info a join item_tree b on a.item_id = b.item_id
+where b.parent_item_id is null
+order by a.item_id

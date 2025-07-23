@@ -1,28 +1,17 @@
 class Solution {
-    int res = 0;
+    int answer = 0;
     public int solution(int[] numbers, int target) {
-        char[] oper = new char[numbers.length];
-        dfs(numbers,target,oper,0);
-        return res;
+        dfs(0,0,numbers,target);
+        return answer;
     }
-    private void dfs(int[] numbers, int target, char[] oper, int cnt) {
+    
+    private void dfs(int cur, int cnt, int[] numbers, int target) {
         if (cnt == numbers.length) {
-            int sum = 0;
-            for (int i = 0; i < oper.length; i++) {
-                if (oper[i] == '-') {
-                    sum -= numbers[i];
-                }
-                if (oper[i] == '+') {
-                    sum += numbers[i];
-                }
-            }
-            if (target == sum) res++;
+            if (cur == target) answer++;
             return;
         }
         
-        oper[cnt] = '-';
-        dfs(numbers,target,oper,cnt+1);
-        oper[cnt] = '+';
-        dfs(numbers,target,oper,cnt+1);
+        dfs(cur + numbers[cnt], cnt + 1, numbers, target);
+        dfs(cur - numbers[cnt], cnt + 1, numbers, target);
     }
 }

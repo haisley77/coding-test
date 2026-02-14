@@ -4,20 +4,19 @@ class Solution {
         
         int size = brown + yellow;
         
-        
-        for (int i = 1; i <= size / 2; i++){
+        for (int i = 2; i < size / 2; i++) {
             if (size % i != 0) continue;
-            int a = i;
-            int b = size / i;   // b가 가로
-        
-            if ((b - 2) * (a - 2) == yellow) {
+            
+            int a = i;          // 세로
+            int b = size / i;   // 가로
+            
+            if (yellow == (a - 2) * (b - 2)) {
                 answer[0] = b;
                 answer[1] = a;
                 break;
             }
             
         }
-        
         return answer;
     }
 }
